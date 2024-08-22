@@ -2,6 +2,7 @@ use std::cell::{Ref, RefCell};
 use std::collections::{HashMap, HashSet};
 
 use indexmap::IndexMap;
+use serde::Serialize;
 use starknet_api::abi::abi_utils::get_fee_token_var_address;
 use starknet_api::core::{ClassHash, CompiledClassHash, ContractAddress, Nonce};
 use starknet_api::state::StorageKey;
@@ -795,8 +796,7 @@ impl StateChanges {
 }
 
 /// Holds the number of state changes.
-#[cfg_attr(feature = "transaction_serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize)]
 pub struct StateChangesCount {
     pub n_storage_updates: usize,
     pub n_class_hash_updates: usize,

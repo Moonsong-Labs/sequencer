@@ -1,3 +1,5 @@
+use cairo_vm::vm::runners::cairo_runner::ExecutionResources;
+use serde::Serialize;
 use starknet_api::core::ContractAddress;
 use starknet_api::execution_resources::{GasAmount, GasVector};
 use starknet_api::transaction::fields::Fee;
@@ -35,9 +37,7 @@ struct TransactionReceiptParameters<'a> {
 
 // TODO(Gilad): Use everywhere instead of passing the `actual_{fee,resources}` tuple, which often
 // get passed around together.
-#[cfg_attr(any(test, feature = "testing"), derive(Clone))]
-#[cfg_attr(feature = "transaction_serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Default, Debug, PartialEq)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Serialize)]
 pub struct TransactionReceipt {
     pub fee: Fee,
     pub gas: GasVector,

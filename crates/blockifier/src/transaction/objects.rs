@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use cairo_vm::types::builtin_name::BuiltinName;
 use cairo_vm::vm::runners::cairo_runner::ExecutionResources;
+use serde::Serialize;
 use starknet_api::block::{BlockInfo, FeeType};
 use starknet_api::core::{ContractAddress, Nonce};
 use starknet_api::data_availability::DataAvailabilityMode;
@@ -170,9 +171,7 @@ pub struct CommonAccountFields {
     pub only_query: bool,
 }
 
-#[cfg_attr(any(test, feature = "testing"), derive(Clone))]
-#[cfg_attr(feature = "transaction_serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, derive_more::Display, PartialEq)]
+#[derive(Debug, derive_more::Display, Eq, PartialEq, Serialize)]
 pub enum RevertError {
     Execution(ErrorStack),
     PostExecution(FeeCheckError),
@@ -191,9 +190,7 @@ impl From<FeeCheckError> for RevertError {
 }
 
 /// Contains the information gathered by the execution of a transaction.
-#[cfg_attr(any(test, feature = "testing"), derive(Clone))]
-#[cfg_attr(feature = "transaction_serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Default, PartialEq)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, Serialize)]
 pub struct TransactionExecutionInfo {
     /// Transaction validation call info; [None] for `L1Handler`.
     pub validate_call_info: Option<CallInfo>,
